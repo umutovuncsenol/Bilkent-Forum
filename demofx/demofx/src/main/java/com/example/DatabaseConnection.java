@@ -14,6 +14,9 @@ public class DatabaseConnection {
             // Load configuration from hibernate.cfg.xml file
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
+            configuration.setProperty("hibernate.connection.url", requireEnvironmentVariable("DB_URL"));
+            configuration.setProperty("hibernate.connection.username", requireEnvironmentVariable("DB_USERNAME"));
+            configuration.setProperty("hibernate.connection.password", requireEnvironmentVariable("DB_PASSWORD"));
 
             // Build the session factory
             sessionFactory = configuration.buildSessionFactory();
@@ -21,6 +24,14 @@ public class DatabaseConnection {
             e.printStackTrace();
             throw new RuntimeException("Error connecting to the database: " + e.getMessage());
         }
+    }
+
+    private static String requireEnvironmentVariable(String name) {
+        String value = System.getenv(name);
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException(name + " environment variable is required");
+        }
+        return value;
     }
 
     // Disconnect from the database

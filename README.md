@@ -52,13 +52,17 @@ The application is organized around authentication, users, posts, comments, prof
 
 ### Database Configuration
 
-Configure your own MySQL connection in:
+Set the following environment variables before starting the application:
 
-```text
-demofx/demofx/src/main/java/hibernate.cfg.xml
+```bash
+export DB_URL=jdbc:mysql://localhost:3306/bilkentForum
+export DB_USERNAME=your_local_username
+export DB_PASSWORD=your_local_password
 ```
 
-Use local or environment-specific credentials and never commit real database passwords.
+The repository includes `.env.example` as a reference. A local `.env` file is
+ignored by Git, but it must be loaded by your shell or IDE before the Java
+process starts.
 
 ### Run the Application
 
